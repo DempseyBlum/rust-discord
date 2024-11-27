@@ -1,0 +1,27 @@
+
+name: Discord Bot Message
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Send message to Discord
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -H "Authorization: Bot $DISCORD_TOKEN" \
+          -d "{\"content\": \"GitHub Action triggered!\"}" \
+          https://discord.com/api/v9/channels/$DISCORD_CHANNEL_ID/messages
