@@ -7,6 +7,10 @@ on:
         description: 'Environment variable name for the version'
         required: true
         type: string
+      buildSteps:
+        description: 'Steps to build the application'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -23,3 +27,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "REACT_APP_VERSION=$VERSION" >> $GITHUB_ENV
           echo "Determined version: $VERSION"
+
+      - name: Build Docker image
+        run: |
+          --target ${{ inputs.buildSteps }}

@@ -25,3 +25,7 @@ jobs:
     uses: ./.github/workflows/shared-github-actions.yml
     with:
       versionEnvName: REACT_APP_VERSION
+      buildSteps: |
+        edge-transformers-app-lib
+        common-packages
+        common-builder
