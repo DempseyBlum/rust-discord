@@ -1,0 +1,31 @@
+name: Test shared workflow
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - 'apps/client/**'
+      - 'apps/common/**'
+      - 'backends/edge-transformers/edge-transformers-library/**'
+  pull_request:
+    types:
+        - opened
+        - reopened 
+        - synchronize
+    # paths:
+    #   - 'apps/client/**'
+    #   - 'apps/common/**'
+    #   - 'backends/edge-transformers/edge-transformers-library/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/shared-github-actions.yml
+    with:
+      versionEnvName: REACT_APP_VERSION
+      buildSteps: |
+        edge-transformers-app-lib
+        common-packages
+        common-builder
