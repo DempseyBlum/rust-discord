@@ -1,0 +1,25 @@
+name: App Build
+
+on:
+  workflow_call:
+    inputs:
+      versionEnvName:
+        description: 'Environment variable name for the version'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Determine Version
+        id: version
+        run: |
+          VERSION=$(git describe --match 'v*.*.*')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "REACT_APP_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Determined version: $VERSION"
